@@ -1,178 +1,374 @@
 @extends('dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Header -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
     <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div class="mb-4 md:mb-0">
+                <div class="flex items-center gap-3 mb-2">
+                    <a href="{{ route('inventaris.index') }}" class="inline-flex items-center text-gray-500 hover:text-gray-700 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Kembali ke Daftar
+                    </a>
+                </div>
                 <h1 class="text-3xl font-bold text-gray-900 mb-2">Edit Inventaris</h1>
-                <p class="text-gray-600">Update data inventaris: {{ $inventaris->nama_barang }}</p>
+                <div class="flex items-center gap-2 text-sm text-gray-600">
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                        ID: {{ $inventaris->id }}
+                    </span>
+                    <span>•</span>
+                    <span>Terakhir update: {{ $inventaris->updated_at->format('d M Y') }}</span>
+                </div>
             </div>
             <div class="flex gap-3">
-                <a href="{{ route('inventaris.index') }}" class="inline-flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 transition-colors duration-200">
+                <a href="{{ route('inventaris.show', $inventaris) }}" class="inline-flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 transition-colors duration-200">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                     </svg>
-                    Kembali
+                    Lihat Detail
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Form -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <form action="{{ route('inventaris.update', $inventaris) }}" method="POST" x-data="{ kategori: '{{ old('kategori', $inventaris->kategori) }}' }">
-            @csrf
-            @method('PUT')
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Nama Barang -->
-                <div class="md:col-span-2">
-                    <label for="nama_barang" class="block text-sm font-medium text-gray-700 mb-2">Nama Barang *</label>
-                    <input 
-                        type="text" 
-                        name="nama_barang" 
-                        id="nama_barang" 
-                        class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 @error('nama_barang') border-red-300 @enderror" 
-                        value="{{ old('nama_barang', $inventaris->nama_barang) }}" 
-                        required
-                    >
-                    @error('nama_barang')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Kode Inventaris -->
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center justify-between">
                 <div>
-                    <label for="kode_inventaris" class="block text-sm font-medium text-gray-700 mb-2">Kode Inventaris *</label>
-                    <input 
-                        type="text" 
-                        name="kode_inventaris" 
-                        id="kode_inventaris" 
-                        class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 @error('kode_inventaris') border-red-300 @enderror" 
-                        value="{{ old('kode_inventaris', $inventaris->kode_inventaris) }}" 
-                        required
-                    >
-                    @error('kode_inventaris')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <p class="text-blue-100 text-sm font-medium">Total Stok</p>
+                    <p class="text-2xl font-bold mt-1">
+                        {{ $inventaris->kondisi_baik + $inventaris->kondisi_rusak_ringan + $inventaris->kondisi_rusak_berat }}
+                    </p>
                 </div>
-
-                <!-- Kategori -->
-                <div>
-                    <label for="kategori" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
-                    <select 
-                        name="kategori" 
-                        id="kategori" 
-                        x-model="kategori"
-                        class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200"
-                    >
-                        <option value="">Pilih Kategori</option>
-                        <option value="Elektronik" {{ old('kategori', $inventaris->kategori) == 'Elektronik' ? 'selected' : '' }}>Elektronik</option>
-                        <option value="Furniture" {{ old('kategori', $inventaris->kategori) == 'Furniture' ? 'selected' : '' }}>Furniture</option>
-                        <option value="Alat Tulis" {{ old('kategori', $inventaris->kategori) == 'Alat Tulis' ? 'selected' : '' }}>Alat Tulis</option>
-                        <option value="Kendaraan" {{ old('kategori', $inventaris->kategori) == 'Kendaraan' ? 'selected' : '' }}>Kendaraan</option>
-                        <option value="Lainnya" {{ old('kategori', $inventaris->kategori) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                    </select>
-                </div>
-
-                <!-- Unit -->
-                <div>
-                    <label for="unit_id" class="block text-sm font-medium text-gray-700 mb-2">Unit</label>
-                    <select 
-                        name="unit_id" 
-                        id="unit_id" 
-                        class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200"
-                    >
-                        <option value="">Pilih Unit</option>
-                        @foreach($units as $unit)
-                            <option value="{{ $unit->id }}" {{ old('unit_id', $inventaris->unit_id) == $unit->id ? 'selected' : '' }}>
-                                {{ $unit->nama_unit }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Ruangan -->
-                <div>
-                    <label for="room_id" class="block text-sm font-medium text-gray-700 mb-2">Ruangan</label>
-                    <select 
-                        name="room_id" 
-                        id="room_id" 
-                        class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200"
-                    >
-                        <option value="">Pilih Ruangan</option>
-                        @foreach($rooms as $room)
-                            <option value="{{ $room->id }}" {{ old('room_id', $inventaris->room_id) == $room->id ? 'selected' : '' }}>
-                                {{ $room->nama_ruangan }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Kondisi Barang -->
-                <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label for="kondisi_baik" class="block text-sm font-medium text-gray-700 mb-2">Kondisi Baik</label>
-                        <input 
-                            type="number" 
-                            name="kondisi_baik" 
-                            id="kondisi_baik" 
-                            class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200" 
-                            value="{{ old('kondisi_baik', $inventaris->kondisi_baik) }}" 
-                            min="0"
-                        >
-                    </div>
-                    <div>
-                        <label for="kondisi_rusak_ringan" class="block text-sm font-medium text-gray-700 mb-2">Rusak Ringan</label>
-                        <input 
-                            type="number" 
-                            name="kondisi_rusak_ringan" 
-                            id="kondisi_rusak_ringan" 
-                            class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200" 
-                            value="{{ old('kondisi_rusak_ringan', $inventaris->kondisi_rusak_ringan) }}" 
-                            min="0"
-                        >
-                    </div>
-                    <div>
-                        <label for="kondisi_rusak_berat" class="block text-sm font-medium text-gray-700 mb-2">Rusak Berat</label>
-                        <input 
-                            type="number" 
-                            name="kondisi_rusak_berat" 
-                            id="kondisi_rusak_berat" 
-                            class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200" 
-                            value="{{ old('kondisi_rusak_berat', $inventaris->kondisi_rusak_berat) }}" 
-                            min="0"
-                        >
-                    </div>
-                </div>
-
-                <!-- Keterangan -->
-                <div class="md:col-span-2">
-                    <label for="keterangan" class="block text-sm font-medium text-gray-700 mb-2">Keterangan</label>
-                    <textarea 
-                        name="keterangan" 
-                        id="keterangan" 
-                        rows="3" 
-                        class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-200"
-                    >{{ old('keterangan', $inventaris->keterangan) }}</textarea>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-8 flex flex-col-reverse md:flex-row gap-3 md:justify-end">
-                <a href="{{ route('inventaris.index') }}" class="inline-flex justify-center rounded-lg bg-gray-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 transition-colors duration-200">
-                    Batal
-                </a>
-                <button type="submit" class="inline-flex justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors duration-200">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                <div class="bg-white/20 p-3 rounded-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m8-8V4a1 1 0 00-1-1h-2a1 1 0 00-1 1v1M9 7h6"/>
                     </svg>
-                    Update Inventaris
-                </button>
+                </div>
             </div>
-        </form>
+        </div>
+
+        <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-green-100 text-sm font-medium">Kondisi Baik</p>
+                    <p class="text-2xl font-bold mt-1">{{ $inventaris->kondisi_baik }}</p>
+                </div>
+                <div class="bg-white/20 p-3 rounded-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-amber-500 to-amber-600 text-white rounded-2xl p-6 shadow-lg">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-amber-100 text-sm font-medium">Perlu Perbaikan</p>
+                    <p class="text-2xl font-bold mt-1">{{ $inventaris->kondisi_rusak_ringan + $inventaris->kondisi_rusak_berat }}</p>
+                </div>
+                <div class="bg-white/20 p-3 rounded-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900">Form Edit Inventaris</h2>
+            <p class="text-sm text-gray-600 mt-1">Update informasi lengkap untuk barang: <span class="font-medium text-blue-600">{{ $inventaris->nama_barang }}</span></p>
+        </div>
+
+        <div class="p-6">
+            <form action="{{ route('inventaris.update', $inventaris) }}" method="POST" x-data="{ 
+                kategori: '{{ old('kategori', $inventaris->kategori) }}',
+                totalStok: {{ $inventaris->kondisi_baik + $inventaris->kondisi_rusak_ringan + $inventaris->kondisi_rusak_berat }},
+                calculateTotal() {
+                    const baik = parseInt(document.getElementById('kondisi_baik').value) || 0;
+                    const ringan = parseInt(document.getElementById('kondisi_rusak_ringan').value) || 0;
+                    const berat = parseInt(document.getElementById('kondisi_rusak_berat').value) || 0;
+                    this.totalStok = baik + ringan + berat;
+                }
+            }">
+                @csrf
+                @method('PUT')
+
+                <!-- Basic Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        Informasi Dasar
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Nama Barang -->
+                        <div class="md:col-span-2">
+                            <label for="nama_barang" class="block text-sm font-medium text-gray-700 mb-2">
+                                Nama Barang <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    name="nama_barang" 
+                                    id="nama_barang" 
+                                    class="block w-full pl-4 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 @error('nama_barang') border-red-300 @enderror" 
+                                    value="{{ old('nama_barang', $inventaris->nama_barang) }}" 
+                                    required
+                                    placeholder="Masukkan nama barang"
+                                >
+                                @error('nama_barang')
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                @enderror
+                            </div>
+                            @error('nama_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Kode Inventaris -->
+                        <div>
+                            <label for="kode_inventaris" class="block text-sm font-medium text-gray-700 mb-2">
+                                Kode Inventaris <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    name="kode_inventaris" 
+                                    id="kode_inventaris" 
+                                    class="block w-full pl-4 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 @error('kode_inventaris') border-red-300 @enderror" 
+                                    value="{{ old('kode_inventaris', $inventaris->kode_inventaris) }}" 
+                                    required
+                                    placeholder="Kode unik barang"
+                                >
+                                @error('kode_inventaris')
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                @enderror
+                            </div>
+                            @error('kode_inventaris')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Kategori -->
+                        <div>
+                            <label for="kategori" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                            <select 
+                                name="kategori" 
+                                id="kategori" 
+                                x-model="kategori"
+                                class="block w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                            >
+                                <option value="">Pilih Kategori</option>
+                                <option value="Elektronik" {{ old('kategori', $inventaris->kategori) == 'Elektronik' ? 'selected' : '' }}>Elektronik</option>
+                                <option value="Furniture" {{ old('kategori', $inventaris->kategori) == 'Furniture' ? 'selected' : '' }}>Furniture</option>
+                                <option value="Alat Tulis" {{ old('kategori', $inventaris->kategori) == 'Alat Tulis' ? 'selected' : '' }}>Alat Tulis</option>
+                                <option value="Kendaraan" {{ old('kategori', $inventaris->kategori) == 'Kendaraan' ? 'selected' : '' }}>Kendaraan</option>
+                                <option value="Laboratorium" {{ old('kategori', $inventaris->kategori) == 'Laboratorium' ? 'selected' : '' }}>Laboratorium</option>
+                                <option value="Lainnya" {{ old('kategori', $inventaris->kategori) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <div class="bg-green-100 text-green-600 p-2 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        Informasi Lokasi
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Unit -->
+                        <div>
+                            <label for="unit_id" class="block text-sm font-medium text-gray-700 mb-2">Unit Kerja</label>
+                            <select 
+                                name="unit_id" 
+                                id="unit_id" 
+                                class="block w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                            >
+                                <option value="">Pilih Unit</option>
+                                @foreach($units as $unit)
+                                    <option value="{{ $unit->id }}" {{ old('unit_id', $inventaris->unit_id) == $unit->id ? 'selected' : '' }}>
+                                        {{ $unit->nama_unit }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Ruangan -->
+                        <div>
+                            <label for="room_id" class="block text-sm font-medium text-gray-700 mb-2">Ruangan</label>
+                            <select 
+                                name="room_id" 
+                                id="room_id" 
+                                class="block w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                            >
+                                <option value="">Pilih Ruangan</option>
+                                @foreach($rooms as $room)
+                                    <option value="{{ $room->id }}" {{ old('room_id', $inventaris->room_id) == $room->id ? 'selected' : '' }}>
+                                        {{ $room->nama_ruangan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Condition Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <div class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        Kondisi Barang
+                        <span class="ml-auto text-sm font-normal text-gray-500">
+                            Total Stok: <span class="font-semibold" x-text="totalStok"></span> unit
+                        </span>
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Kondisi Baik -->
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <label for="kondisi_baik" class="block text-sm font-medium text-green-800 mb-2 flex items-center">
+                                <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                Kondisi Baik
+                            </label>
+                            <input 
+                                type="number" 
+                                name="kondisi_baik" 
+                                id="kondisi_baik" 
+                                class="block w-full px-3 py-2 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 bg-white" 
+                                value="{{ old('kondisi_baik', $inventaris->kondisi_baik) }}" 
+                                min="0"
+                                x-on:input="calculateTotal()"
+                                placeholder="0"
+                            >
+                        </div>
+
+                        <!-- Rusak Ringan -->
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <label for="kondisi_rusak_ringan" class="block text-sm font-medium text-yellow-800 mb-2 flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+                                Rusak Ringan
+                            </label>
+                            <input 
+                                type="number" 
+                                name="kondisi_rusak_ringan" 
+                                id="kondisi_rusak_ringan" 
+                                class="block w-full px-3 py-2 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition duration-200 bg-white" 
+                                value="{{ old('kondisi_rusak_ringan', $inventaris->kondisi_rusak_ringan) }}" 
+                                min="0"
+                                x-on:input="calculateTotal()"
+                                placeholder="0"
+                            >
+                        </div>
+
+                        <!-- Rusak Berat -->
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <label for="kondisi_rusak_berat" class="block text-sm font-medium text-red-800 mb-2 flex items-center">
+                                <span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                                Rusak Berat
+                            </label>
+                            <input 
+                                type="number" 
+                                name="kondisi_rusak_berat" 
+                                id="kondisi_rusak_berat" 
+                                class="block w-full px-3 py-2 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-200 bg-white" 
+                                value="{{ old('kondisi_rusak_berat', $inventaris->kondisi_rusak_berat) }}" 
+                                min="0"
+                                x-on:input="calculateTotal()"
+                                placeholder="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <div class="bg-gray-100 text-gray-600 p-2 rounded-lg mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                            </svg>
+                        </div>
+                        Informasi Tambahan
+                    </h3>
+                    
+                    <div>
+                        <label for="keterangan" class="block text-sm font-medium text-gray-700 mb-2">Keterangan</label>
+                        <textarea 
+                            name="keterangan" 
+                            id="keterangan" 
+                            rows="4" 
+                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                            placeholder="Tambahkan catatan atau keterangan tentang barang ini..."
+                        >{{ old('keterangan', $inventaris->keterangan) }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col-reverse md:flex-row gap-3 md:justify-end pt-6 border-t border-gray-200">
+                    <a href="{{ route('inventaris.index') }}" class="inline-flex justify-center items-center gap-2 rounded-lg bg-gray-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 transition-colors duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Batal
+                    </a>
+                    <button type="submit" class="inline-flex justify-center items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Update Inventaris
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+// Alpine.js for interactive features
+document.addEventListener('alpine:init', () => {
+    Alpine.data('inventarisForm', () => ({
+        kategori: '{{ old('kategori', $inventaris->kategori) }}',
+        totalStok: {{ $inventaris->kondisi_baik + $inventaris->kondisi_rusak_ringan + $inventaris->kondisi_rusak_berat }},
+        
+        calculateTotal() {
+            const baik = parseInt(document.getElementById('kondisi_baik').value) || 0;
+            const ringan = parseInt(document.getElementById('kondisi_rusak_ringan').value) || 0;
+            const berat = parseInt(document.getElementById('kondisi_rusak_berat').value) || 0;
+            this.totalStok = baik + ringan + berat;
+        }
+    }));
+});
+</script>
 @endsection

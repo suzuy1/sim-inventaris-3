@@ -2,6 +2,41 @@
 
 @section('content')
 <div class="space-y-6">
+    <!-- Welcome Banner - Now at the Top -->
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg overflow-hidden">
+        <div class="p-8 text-white">
+            <div class="flex items-center justify-between">
+                <div class="max-w-2xl">
+                    <h2 class="text-2xl font-bold mb-3">Selamat Datang di Sistem Inventaris!</h2>
+                    <p class="text-blue-100 text-lg mb-4">
+                        Kelola seluruh aset kampus Anda dengan mudah dan efisien. Pantau stok, lacak transaksi, dan optimalkan pengelolaan inventaris dalam satu platform.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="{{ route('inventaris.create') }}" class="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 inline-flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            Tambah Inventaris
+                        </a>
+                        <a href="{{ route('inventaris.index') }}" class="border border-white text-white hover:bg-white hover:text-blue-600 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 inline-flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            Lihat Semua Inventaris
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6">
+                        <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
@@ -241,41 +276,6 @@
                     @endforeach
                 </div>
                 @endif
-            </div>
-        </div>
-    </div>
-
-    <!-- Welcome Card -->
-    <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg overflow-hidden">
-        <div class="p-8 text-white">
-            <div class="flex items-center justify-between">
-                <div class="max-w-2xl">
-                    <h2 class="text-2xl font-bold mb-3">Selamat Datang di Sistem Inventaris!</h2>
-                    <p class="text-blue-100 text-lg mb-4">
-                        Kelola seluruh aset kampus Anda dengan mudah dan efisien. Pantau stok, lacak transaksi, dan optimalkan pengelolaan inventaris dalam satu platform.
-                    </p>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="{{ route('inventaris.create') }}" class="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 inline-flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                            </svg>
-                            Tambah Inventaris
-                        </a>
-                        <a href="{{ route('inventaris.index') }}" class="border border-white text-white hover:bg-white hover:text-blue-600 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 inline-flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                            </svg>
-                            Lihat Semua Inventaris
-                        </a>
-                    </div>
-                </div>
-                <div class="hidden lg:block">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6">
-                        <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

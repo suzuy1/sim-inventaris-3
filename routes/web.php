@@ -26,8 +26,7 @@ Route::middleware("auth")->group(function () {
     Route::post("inventaris/import",[InventarisController::class,"import"])->name("inventaris.import");
     Route::get("inventaris/export",[InventarisController::class,"export"])->name("inventaris.export");
     Route::get("inventaris/grouped/{nama_barang}",[InventarisController::class,"showGrouped"])->name("inventaris.show_grouped"); // Rute baru kita
-    Route::put("inventaris/{inventaris}", [InventarisController::class, "update"])->name("inventaris.update");
-    Route::resource("inventaris",InventarisController::class);
+    Route::resource("inventaris", InventarisController::class)->parameter('inventaris', 'inventaris');
 
     Route::resource("acquisitions",AcquisitionController::class);
     Route::resource("rooms",RoomController::class);

@@ -37,50 +37,76 @@
             </div>
         </div>
 
-        <!-- Statistik Ringkas untuk Detail -->
-        <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-green-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
+        <!-- Statistik Ringkas untuk Detail dengan Gradient -->
+        <div class="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <!-- Total Baik -->
+            <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100 text-sm font-medium">Total Baik</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventarisDetails->sum('kondisi_baik') }}</p>
+                        <p class="text-green-100 text-xs mt-1">Dalam kondisi baik</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Total Baik</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventarisDetails->sum('kondisi_baik') }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-green-400/30">
+                    <div class="flex items-center text-green-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Siap digunakan</span>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-yellow-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                        </div>
+
+            <!-- Rusak Ringan -->
+            <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-yellow-100 text-sm font-medium">Rusak Ringan</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventarisDetails->sum('kondisi_rusak_ringan') }}</p>
+                        <p class="text-yellow-100 text-xs mt-1">Perlu perbaikan ringan</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Rusak Ringan</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventarisDetails->sum('kondisi_rusak_ringan') }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-yellow-400/30">
+                    <div class="flex items-center text-yellow-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 01-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Butuh perhatian</span>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-red-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
+
+            <!-- Rusak Berat -->
+            <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-red-100 text-sm font-medium">Rusak Berat</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventarisDetails->sum('kondisi_rusak_berat') }}</p>
+                        <p class="text-red-100 text-xs mt-1">Perlu perbaikan serius</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Rusak Berat</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventarisDetails->sum('kondisi_rusak_berat') }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-red-400/30">
+                    <div class="flex items-center text-red-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Prioritas perbaikan</span>
                     </div>
                 </div>
             </div>

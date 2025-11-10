@@ -23,7 +23,7 @@
                             <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                         </svg>
                         Impor Data
-                    </button>
+                    </a>
                     <a href="{{ route('inventaris.export') }}" class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-colors duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -68,65 +68,100 @@
             </form>
         </div>
 
-        <!-- Statistik Ringkas -->
-        <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-green-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
+        <!-- Statistik Ringkas dengan Gradient seperti Detail -->
+        <div class="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <!-- Total Barang Baik -->
+            <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100 text-sm font-medium">Total Barang Baik</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventaris->sum('total_baik') }}</p>
+                        <p class="text-green-100 text-xs mt-1">Dalam kondisi baik</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Total Barang Baik</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventaris->sum('total_baik') }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-green-400/30">
+                    <div class="flex items-center text-green-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Siap digunakan</span>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-yellow-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                        </div>
+
+            <!-- Rusak Ringan -->
+            <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-yellow-100 text-sm font-medium">Rusak Ringan</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventaris->sum('total_rusak_ringan') }}</p>
+                        <p class="text-yellow-100 text-xs mt-1">Perlu perbaikan ringan</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Rusak Ringan</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventaris->sum('total_rusak_ringan') }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-yellow-400/30">
+                    <div class="flex items-center text-yellow-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 01-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Butuh perhatian</span>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-red-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
+
+            <!-- Rusak Berat -->
+            <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-red-100 text-sm font-medium">Rusak Berat</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventaris->sum('total_rusak_berat') }}</p>
+                        <p class="text-red-100 text-xs mt-1">Perlu perbaikan serius</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Rusak Berat</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventaris->sum('total_rusak_berat') }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-red-400/30">
+                    <div class="flex items-center text-red-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Prioritas perbaikan</span>
                     </div>
                 </div>
             </div>
-            <div class="rounded-lg bg-white p-4 shadow border border-gray-100">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="rounded-lg bg-blue-100 p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                            </svg>
-                        </div>
+
+            <!-- Jenis Barang -->
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100 text-sm font-medium">Jenis Barang</p>
+                        <p class="text-2xl font-bold mt-1">{{ $inventaris->count() }}</p>
+                        <p class="text-blue-100 text-xs mt-1">Kategori berbeda</p>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Jenis Barang</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $inventaris->count() }}</p>
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-blue-400/30">
+                    <div class="flex items-center text-blue-100 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 01-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Total kategori</span>
                     </div>
                 </div>
             </div>
