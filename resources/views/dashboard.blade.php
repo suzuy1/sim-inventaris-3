@@ -216,30 +216,7 @@
         </aside>
 
         {{-- Main Content --}}
-        <div class="flex flex-1 flex-col overflow-hidden w-full transition-all duration-300 lg:ml-72">
-            
-            {{-- Top Navigation --}}
-            <header class="sticky top-0 z-10 glass border-b border-gray-200/50 px-4 sm:px-6 py-3 shadow-sm">
-                <div class="flex items-center justify-between">
-                    
-                    {{-- Left Section: Menu Toggle and Expand Button --}}
-                    <div class="flex items-center gap-3">
-                        {{-- Mobile menu toggle --}}
-                        <button @click="sidebarOpen = !sidebarOpen" 
-                                class="lg:hidden inline-flex items-center justify-center p-2.5 rounded-xl text-gray-600 hover:text-purple-600 hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200">
-                            <svg x-show="!sidebarOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                            </svg>
-                            <svg x-show="sidebarOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </button>
-
-                        {{-- Breadcrumb or page title can go here --}}
-                        <div class="hidden md:block">
-                            <h1 class="text-lg font-semibold text-gray-900">@yield('title', 'Dasbor')</h1>
-                        </div>
-                    </div>
+        {{-- INI YANG DIPERBAIKI: class 'lg:ml-72' dihapus dari div di bawah --}}
         <div class="flex flex-1 flex-col overflow-hidden w-full transition-all duration-300">
             
             {{-- Top Navigation --}}
@@ -276,6 +253,7 @@
                     </div>
 
                     {{-- Search Bar --}}
+                    {{-- INI YANG DIPERBAIKI: Blok ini dipindahkan dari dalam kode duplikat --}}
                     <div class="flex-1 max-w-2xl mx-4 lg:mx-8">
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -290,6 +268,7 @@
                     </div>
 
                     {{-- Right Menu --}}
+                    {{-- INI YANG DIPERBAIKI: Blok ini dipindahkan dari dalam kode duplikat --}}
                     <div class="flex items-center gap-3">
                         
                         {{-- Theme Toggle --}}
@@ -388,17 +367,20 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </header>
 
             {{-- Page Content --}}
+            {{-- INI YANG DIPERBAIKI: Blok ini dipindahkan dari dalam kode duplikat --}}
             <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
                 <div class="max-w-7xl mx-auto">
                     @yield('content')
                 </div>
             </main>
-        </div>
-    </div>
+
+        </div> {{-- Penutup Main Content --}}
+    </div> {{-- Penutup flex h-screen --}}
 
 </body>
 </html>
