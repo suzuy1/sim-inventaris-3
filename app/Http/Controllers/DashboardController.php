@@ -29,7 +29,7 @@ class DashboardController extends Controller
             ->where('total_sisa_stok', '<', 10) // Filter after calculation
             ->sortBy('total_sisa_stok');
 
-        $recentTransactions = Transaction::with(['item', 'user'])->orderBy('created_at', 'desc')->take(5)->get();
+        $recentTransactions = Transaction::with(['inventaris', 'user'])->orderBy('created_at', 'desc')->take(5)->get();
 
         return view('dashboard.home', compact(
             'totalInventaris',
